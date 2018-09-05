@@ -13,6 +13,14 @@
          implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
          
          api 'org.heyi.base:library-fab:1.0.1'
+         
+         
+         repositories {
+           jcenter()
+           ...
+         }
+         
+    
         
 ### 简介 ;
  
