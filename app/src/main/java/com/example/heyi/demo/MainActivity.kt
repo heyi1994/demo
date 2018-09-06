@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import org.heyi.base.extend.*
+import org.heyi.support.extend.*
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -50,6 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        Uri.fromFile(File("")).toPath(this)
+       // Uri.fromFile(File("")).toPath(this)
+
+
+
+        runOnUiThreadDelayed(2000){
+            ivPre.setImageBitmap(tvMsg.toBitmap())
+        }
     }
 }

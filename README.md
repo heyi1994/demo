@@ -12,7 +12,7 @@
          implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
          implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
          
-         api 'org.heyi.base:library-fab:1.0.1'
+         api 'org.heyi.support:android-ktx:1.0.2'
          
          
          repositories {
