@@ -1,8 +1,10 @@
 package com.example.heyi.demo
 
+import android.Manifest
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -10,6 +12,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.heyi.support.extend.*
 import java.io.File
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
   private val TAG:String=this.javaClass.simpleName
@@ -29,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         runOnIoThread {
             toast("i'm not run on ui thread! ")
         }
-
-
 
 
         val params = tvMsg.layoutParams as LinearLayout.LayoutParams
@@ -57,5 +58,21 @@ class MainActivity : AppCompatActivity() {
         runOnUiThreadDelayed(2000){
             ivPre.setImageBitmap(tvMsg.toBitmap())
         }
+
+
+        if (checkSinglePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                &&checkSinglePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            tvMsg.toBitmap().saveToFile(
+                    File(Environment.DIRECTORY_DCIM+File.separator+UUID.randomUUID()+".jpg").apply {
+                        if (!this.exists())this.createNewFile()
+                    }){
+                isSuccess->
+                toast(if (isSuccess)"The bitmap save success !"
+                else "Get some error !")
+            }
+        }
+
+
+
     }
 }
