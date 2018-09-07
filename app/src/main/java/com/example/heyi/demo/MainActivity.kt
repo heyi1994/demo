@@ -57,20 +57,25 @@ class MainActivity : AppCompatActivity() {
 
         runOnUiThreadDelayed(2000){
             ivPre.setImageBitmap(tvMsg.toBitmap())
-        }
 
 
-        if (checkSinglePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                &&checkSinglePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            tvMsg.toBitmap().saveToFile(
-                    File(Environment.DIRECTORY_DCIM+File.separator+UUID.randomUUID()+".jpg").apply {
-                        if (!this.exists())this.createNewFile()
-                    }){
-                isSuccess->
-                toast(if (isSuccess)"The bitmap save success !"
-                else "Get some error !")
+
+            if (checkSinglePermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    &&checkSinglePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                tvMsg.toBitmap().saveToFile(
+                        File(Environment.getExternalStorageDirectory().absolutePath+
+                                "/"+Environment.DIRECTORY_DCIM+"/test_${System.currentTimeMillis()}.jpg").apply {
+                            if (!this.exists())this.createNewFile()
+                        }){
+                    isSuccess->
+                    toast(if (isSuccess)"The bitmap save success !"
+                    else "Get some error !")
+                }
             }
         }
+
+
+
 
 
 
