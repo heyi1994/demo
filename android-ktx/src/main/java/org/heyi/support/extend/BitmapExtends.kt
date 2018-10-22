@@ -1,8 +1,13 @@
 package org.heyi.support.extend
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Looper
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import java.io.File
 import java.io.FileOutputStream
 
@@ -59,4 +64,37 @@ private  fun Bitmap.progressToFile(file: File,resultCallback:((Boolean)->Unit)?=
             resultCallback?.invoke(false)
         }
     }
+}
+
+
+
+/**
+ * 图片缩放比例 ;
+ */
+internal const val BITMAP_SCALE = 0.4f
+
+/**
+ * 最大模糊度(在0.0到25.0之间) ;
+ */
+internal const val BLUR_RADIUS = 0.25f
+
+/**
+ * 模糊图片 ;
+ * @param scale 图片缩放比例 ;
+ * @param blurRadius 最大模糊度 ;
+ */
+fun Bitmap.blur(context: Context,scale:Float = BITMAP_SCALE,blurRadius:Float = BLUR_RADIUS):Bitmap{
+    val width =  Math.round(this.getWidth() * scale)
+    val height = Math.round(this.getHeight() * scale)
+    val inputBitmap = Bitmap.createScaledBitmap(this, width, height, false)
+    val outputBitmap = Bitmap.createBitmap(inputBitmap)
+    val rs = RenderScript.create(context)
+    val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
+    val tmpIn = Allocation.createFromBitmap(rs, inputBitmap)
+    val tmpOut = Allocation.createFromBitmap(rs, outputBitmap)
+    blurScript.setRadius(blurRadius)
+    blurScript.setInput(tmpIn)
+    blurScript.forEach(tmpOut)
+    tmpOut.copyTo(outputBitmap)
+    return  outputBitmap
 }

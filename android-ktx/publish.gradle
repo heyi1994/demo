@@ -5,15 +5,15 @@ ext {
     // compile '<groupId>:<artifactId>:<libVersion>'
     groupId = 'org.heyi.support' // package name of the project
     artifactId = "android-ktx" // module name of the library
-    libVersion = "1.0.3"
+    libVersion = "1.0.4"
 }
 version = libVersion
 group = groupId
 
 
 bintray {
-    user = BintrayUser
-    key = BintrayKey
+    user = ''
+    key = ''
     configurations = ['archives']
     publish = true //[Default: false] Whether version should be auto published after an upload
     override = false //[Default: false] Whether to override version artifacts already published
